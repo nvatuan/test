@@ -17,6 +17,8 @@ jobs:
       - name: Create PR release
         env:
           GIT_PR_RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GIT_PR_RELEASE_BRANCH_PRODUCTION: "production"
+          GIT_PR_RELEASE_BRANCH_STAGING: "staging"
         run: |
           gem install git-pr-release
           git-pr-release --squashed || echo "Done."
