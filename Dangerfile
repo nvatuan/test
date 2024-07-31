@@ -18,8 +18,8 @@ unsafe_files = changed_files.reject { |file|
 }
 
 if unsafe_files.any?
-  message("Require manual reviews. Found these unsafe files on PR:")
+  markdown("Require manual reviews. Found these unsafe files on PR:")
   unsafe_files.each { |file|
-    warn("- `#{file}`")
+    fail("- `#{file}`")
   }
 end
