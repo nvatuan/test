@@ -2,7 +2,7 @@ name: Create PR Release Staging to Production
 on:
   push:
     branches:
-      - production
+      - staging
 jobs:
   pr-release-stg-to-prod:
     runs-on: ubuntu-latest
@@ -16,9 +16,10 @@ jobs:
           ruby-version: 3.1.2
       - name: Create PR release
         env:
-          GIT_PR_RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GIT_PR_RELEASE_TOKEN: ${{ secrets.MY_TOKEN }}
           GIT_PR_RELEASE_BRANCH_PRODUCTION: "production"
           GIT_PR_RELEASE_BRANCH_STAGING: "staging"
+          GIT_PR_RELEASE_TEMPLATE: .github/git-pr-release.erb
         run: |
           gem install git-pr-release
           git-pr-release --squashed || echo "Done."
