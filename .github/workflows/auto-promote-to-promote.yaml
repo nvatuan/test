@@ -53,6 +53,11 @@ jobs:
 
   auto-promote-to-production:
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/danger/danger:v9.4.2
+      options: --user 1001:1001
+      env:
+        DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     needs: check-pr-from-staging
     permissions: write-all
     if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'production' && github.event.pull_request.head.ref == 'staging'
@@ -61,12 +66,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 3.1.2
       
       - name: Run Danger
         run: |
-          export DANGER_GITHUB_API_TOKEN="${{ secrets.GITHUB_TOKEN }}"
           bundle exec danger --fail-on-errors=true
