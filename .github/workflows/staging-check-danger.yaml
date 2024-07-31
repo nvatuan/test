@@ -1,0 +1,37 @@
+
+name: Auto Promote to Production
+on:
+  pull_request:
+    branches:
+      - staging
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+permissions:
+  pull-requests: write
+
+concurrency:
+  group: check
+  cancel-in-progress: true
+
+jobs:
+  check-danger:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'staging'
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.1.2
+      
+      - name: Run Danger
+        run: |
+          export DANGER_GITHUB_API_TOKEN="${{ secrets.GITHUB_TOKEN }}"
+          bundle exec danger --fail-on-errors=true
