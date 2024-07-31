@@ -30,14 +30,21 @@ jobs:
           fi
           echo "ERR: PR head branch is not 'staging'"
           exit 1
-    
+
+      - name: Write comment if PR head branch is not `staging`
+        uses: marocchino/sticky-pull-request-comment@v2
+        if: success()
+        with:
+          header: remind-wrong-branch
+          delete: true
+   
       - name: Write comment if PR head branch is not `staging`
         uses: marocchino/sticky-pull-request-comment@v2
         if: failure()
         with:
           header: remind-wrong-branch
           message: |
-            # 🚫 Pull Request Merge To `production` must be from `staging`
+            ## 🚫 Pull Request Merge To `production` must be from `staging`
 
             Hello @${{ github.event.pull_request.user.login }} -san,
 

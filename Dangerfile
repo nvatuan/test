@@ -29,7 +29,6 @@ if unsafe_files.any?
     curr += 1
   }
 
-  message(":warning: *Require manual reviews. Found above unsafe files on PR.*")
-  message("__Despite the failure, you can still manually merge the PR.__")
-  message("__The failure is for disable automatic merge.__")
+  markdown << ":warning: *Require manual reviews. Found above unsafe files on PR.*"
+    << "__Despite the failure, you can still manually merge the PR. The failure is for disable automatic merge.__"
 end
