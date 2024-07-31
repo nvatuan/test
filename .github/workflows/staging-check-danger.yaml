@@ -32,12 +32,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Debug 1
-        run: pwd
-      
-      - name: Debug 2
-        run: ls -la .
-
       - name: Run Danger
         run: |
           bundle exec danger --fail-on-errors=true
