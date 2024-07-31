@@ -31,7 +31,7 @@ jobs:
           echo "ERR: PR head branch is not 'staging'"
           exit 1
 
-      - name: Write comment if PR head branch is not `staging`
+      - name: Delete previous if correct
         uses: marocchino/sticky-pull-request-comment@v2
         if: success()
         with:
@@ -50,8 +50,6 @@ jobs:
 
             Please create a Pull Request to the `staging` branch and request review there. After it got approved, you can create a Pull Request to the `production` branch.
             Thank you for your cooperation. :bow:
-
-            _Recently, we made this change to ensure better stability for BASTION hosts._
 
   auto-promote-to-production:
     runs-on: ubuntu-latest
