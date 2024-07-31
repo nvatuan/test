@@ -1,5 +1,4 @@
-
-name: Auto Promote to Production
+name: Check staging
 on:
   pull_request:
     branches:
