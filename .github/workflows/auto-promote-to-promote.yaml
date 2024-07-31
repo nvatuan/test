@@ -70,3 +70,11 @@ jobs:
       - name: Run Danger
         run: |
           bundle exec danger --fail-on-errors=true
+
+      - name: Approve and merge if they are safe to merge
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.MY_TOKEN }}
+        run: |
+          echo "OK: Safe to merge"
+          gh pr merge ${{ github.event.number }} --auto --merge

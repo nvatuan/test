@@ -30,6 +30,6 @@ if unsafe_files.any?
   }
 
   markdown [":warning: **Require manual reviews. Found above unsafe files on PR.**",
-    "_Despite the failure, you can still manually merge the PR. The failure is for disable automatic merge._",
+    "_Despite pipelines failure, you and reviewers can still **merge the PR**. The failure is for disabling the automatic merge._",
   ]
 end
