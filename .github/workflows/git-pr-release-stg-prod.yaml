@@ -20,6 +20,7 @@ jobs:
           GIT_PR_RELEASE_BRANCH_PRODUCTION: "production"
           GIT_PR_RELEASE_BRANCH_STAGING: "staging"
           GIT_PR_RELEASE_TEMPLATE: .github/git-pr-release.erb
+          GIT_PR_RELEASE_LABELS: release-prod
         run: |
           gem install git-pr-release
           git-pr-release --squashed || echo "Done."
