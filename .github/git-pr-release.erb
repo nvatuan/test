@@ -1,6 +1,7 @@
-Deploy from `staging` to `production` (<%= Time.now.localtime("+09:00") %>
+Deploying from `TEST-BASTION` to `PROD-BASTION` (<%= Time.now.localtime("+09:00") %>)
 
-### Deploying changes from `TEST-BASTION` to `PROD-BASTION`
+Please confirm the below changes:
+
 <% pull_requests.each do |pr| -%>
-  - [ ] confirmed? <%=  pr.to_checklist_item %>
+  <%= pr.to_checklist_item %>
 <% end -%>
