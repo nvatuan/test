@@ -16,16 +16,54 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  check-danger:
+  check-pr-from-staging:
     runs-on: ubuntu-latest
     permissions: write-all
-    if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'staging'
+    if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'staging-2'
+    timeout-minutes: 3
+    steps:
+      - name: Check PR branch from `staging`
+        run: |
+          if [[ "${{ github.event.pull_request.head.ref }}" == "staging-2" ]]; then
+            echo "OK: PR head branch is 'staging-2'"
+            exit 0
+          fi
+          echo "ERR: PR head branch is not 'staging-2'"
+          exit 1
+
+      - name: Delete previous if correct
+        uses: marocchino/sticky-pull-request-comment@v2
+        if: success()
+        with:
+          header: remind-wrong-branch
+          delete: true
+   
+      - name: Write comment if PR head branch is not `staging-2`
+        uses: marocchino/sticky-pull-request-comment@v2
+        if: failure()
+        with:
+          header: remind-wrong-branch
+          message: |
+            ## 🚫 Pull Request Merge To `production` must be from `staging-2`
+
+            Hello @${{ github.event.pull_request.user.login }} -san,
+
+            Please create a Pull Request to the `add-danger` branch and request review there. After it got approved, you can create a Pull Request to the `production` branch.
+            Thank you for your cooperation. :bow:
+
+            _Recently, we made this change to ensure better stability for BASTION hosts._
 
     container:
       image: ghcr.io/danger/danger:v9.4.2
       options: --user 1001:1001
       env:
         DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  check-danger:
+    runs-on: ubuntu-latest
+    needs: check-pr-from-staging
+    permissions: write-all
+    if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'staging' && github.event.pull_request.head.ref == 'add-dangerxx'
 
     steps:
       - uses: actions/checkout@v4
