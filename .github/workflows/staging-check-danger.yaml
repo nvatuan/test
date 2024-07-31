@@ -24,7 +24,7 @@ jobs:
     steps:
       - name: Check PR branch from `staging`
         run: |
-          if [ "${{ github.event.pull_request.head.ref }}" -eq "add-danger" ]; then
+          if [ "${{ github.event.pull_request.head.ref }}" = "add-danger" ]; then
             echo "OK: PR head branch is 'add-danger'"
             exit 0
           fi
