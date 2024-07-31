@@ -19,7 +19,7 @@ jobs:
   check-pr-from-staging:
     runs-on: ubuntu-latest
     permissions: write-all
-    if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'staging-2'
+    if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'staging'
     timeout-minutes: 3
     steps:
       - name: Check PR branch from `staging`
