@@ -17,9 +17,19 @@ unsafe_files = changed_files.reject { |file|
   }
 }
 
+UNSAFE_MAX_DISPLAY = 10
+curr = 0
 if unsafe_files.any?
-  markdown("Require manual reviews. Found these unsafe files on PR:")
   unsafe_files.each { |file|
-    fail("- `#{file}`")
+    if curr >= UNSAFE_MAX_DISPLAY
+      fail("... and #{unsafe_files.length - UNSAFE_MAX_DISPLAY} more")
+      break
+    end
+    fail("`#{file}`")
+    curr += 1
   }
+
+  message(":warning: *Require manual reviews. Found above unsafe files on PR.*")
+  message("__Despite the failure, you can still manually merge the PR.__")
+  message("__The failure is for disable automatic merge.__")
 end
