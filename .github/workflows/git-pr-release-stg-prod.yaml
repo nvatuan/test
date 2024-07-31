@@ -2,7 +2,7 @@ name: Create PR Release Staging to Production
 on:
   push:
     branches:
-      - production
+      - staging
 jobs:
   pr-release-stg-to-prod:
     runs-on: ubuntu-latest
