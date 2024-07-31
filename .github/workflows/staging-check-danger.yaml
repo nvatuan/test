@@ -23,6 +23,7 @@ jobs:
 
     container:
       image: ghcr.io/danger/danger:v9.4.2
+      options: --user 1001:1001
       env:
         DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -30,6 +31,12 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Debug 1
+        run: pwd
+      
+      - name: Debug 2
+        run: ls -la .
 
       - name: Run Danger
         run: |
