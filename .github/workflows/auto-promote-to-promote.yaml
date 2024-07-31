@@ -39,7 +39,7 @@ jobs:
           message: |
             # 🚫 Pull Request Merge To `production` must be from `staging`
 
-            Hello ${{ github.event.pull_request.user.login }} -san,
+            Hello @${{ github.event.pull_request.user.login }} -san,
 
             Please create a Pull Request to the `staging` branch and request review there.
             After it got approved, you can create a Pull Request to the `production` branch.
