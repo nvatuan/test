@@ -51,7 +51,7 @@ jobs:
             Please create a Pull Request to the `staging` branch and request review there. After it got approved, you can create a Pull Request to the `production` branch.
             Thank you for your cooperation. :bow:
 
-  auto-promote-to-production:
+  run-danger-check:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/danger/danger:v9.4.2
@@ -71,10 +71,15 @@ jobs:
         run: |
           bundle exec danger --fail-on-errors=true
 
-      - name: Approve and merge if they are safe to merge
-        if: success()
+  auto-merge-to-production:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    needs: run-danger-check
+    if: needs.run-danger-check.result == 'success'
+
+    steps:
+      - name: Merge PR
         env:
-          GH_TOKEN: ${{ secrets.MY_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "OK: Safe to merge"
-          gh pr merge ${{ github.event.number }} --auto --merge
+          gh pr merge ${{ github.event.pull_request.number }} --auto --squash --delete-branch
