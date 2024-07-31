@@ -1,0 +1,20 @@
+name: Create PR Release Staging to Production
+on:
+  push:
+    branches:
+      - production
+jobs:
+  pr-release-stg-to-prod:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: ruby/setup-ruby@v1
+      - name: Create PR release
+        env:
+          GIT_PR_RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gem install git-pr-release
+          git-pr-release --squashed || echo "Done."

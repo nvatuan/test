@@ -1,0 +1,7 @@
+Deploy from `staging` to `production`
+
+Deploying changes from `TEST-BASTION` to `PROD-BASTION`
+<% pull_requests.each do |pr| -%>
+  <%=  pr.to_checklist_item %>
+    - [ ] Manually confirmed?
+<% end -%>
