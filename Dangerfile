@@ -2,7 +2,7 @@
 ## Note that this is "prefix", so "folder/test" still matches with "folder/test123"
 SAFE_PREFIXES = [
   "README.md",
-  "safe/"
+  "safe/",
   "unsafe/safenote"
 ]
 
