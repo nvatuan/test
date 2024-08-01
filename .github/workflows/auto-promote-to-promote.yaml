@@ -78,8 +78,14 @@ jobs:
     if: needs.run-danger-check.result == 'success'
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
       - name: Merge PR
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh pr merge ${{ github.event.pull_request.number }} --auto --squash --delete-branch
+          cd ${{ github.workspace }}
+          gh pr merge ${{ github.event.pull_request.number }} --auto --merge
